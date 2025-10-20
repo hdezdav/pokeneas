@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Error - Pokeneas{% endblock %}
+
+{% block content %}
+<div class="error-container">
+    <div class="error-card">
+        <div class="error-icon">⚠️</div>
+        <h2>¡Uy, parcero!</h2>
+        <p class="error-message">{{ error_message or "Ha ocurrido un error inesperado" }}</p>
+        <a href="/" class="btn-reload">Volver al inicio</a>
+    </div>
+</div>
+{% endblock %}

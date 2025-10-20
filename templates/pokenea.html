@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}{{ pokenea.nombre }} - Pokeneas{% endblock %}
+
+{% block content %}
+<div class="pokenea-container">
+    <div class="pokenea-card">
+        <!-- Header con nombre y container ID -->
+        <div class="pokenea-header">
+            <h2 class="pokenea-name">{{ pokenea.nombre }}</h2>
+            <span class="container-badge" title="Container ID">
+                🐳 {{ pokenea.container_id[:12] }}
+            </span>
+        </div>
+
+        <!-- Imagen del Pokenea -->
+        <div class="pokenea-image-container">
+            {% if pokenea.imagen_url %}
+                <img 
+                    src="{{ pokenea.imagen_url }}" 
+                    alt="{{ pokenea.nombre }}"
+                    class="pokenea-image"
+                    onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22400%22 height=%22400%22/%3E%3Ctext fill=%22%23999%22 font-family=%22system-ui%22 font-size=%2224%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22%3EImagen no disponible%3C/text%3E%3C/svg%3E';"
+                >
+            {% else %}
+                <div class="pokenea-placeholder">
+                    <p>🖼️ Imagen no disponible</p>
+                    <small>Configura S3_BUCKET en las variables de entorno</small>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Frase filosófica -->
+        <div class="pokenea-quote">
+            <blockquote>
+                <p>"{{ pokenea.frase_filosofica }}"</p>
+            </blockquote>
+        </div>
+
+        <!-- Información adicional -->
+        <div class="pokenea-info">
+            <div class="info-item">
+                <span class="info-label">ID:</span>
+                <span class="info-value">#{{ pokenea.id }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Altura:</span>
+                <span class="info-value">{{ pokenea.altura }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Habilidad:</span>
+                <span class="info-value">{{ pokenea.habilidad }}</span>
+            </div>
+        </div>
+
+        <!-- Botón para recargar -->
+        <div class="pokenea-actions">
+            <a href="/pokenea" class="btn-reload">
+                🔄 Descubrir otro Pokenea
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

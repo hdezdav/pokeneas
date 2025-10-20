@@ -1,0 +1,13 @@
+"""
+WSGI entry point para producción.
+"""
+import os
+from app import create_app
+
+# Crear aplicación
+app = create_app()
+
+if __name__ == '__main__':
+    # Para desarrollo local
+    port = int(os.getenv('PORT', 8000))
+    app.run(host='0.0.0.0', port=port, debug=False)
