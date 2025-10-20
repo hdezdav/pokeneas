@@ -1,133 +1,99 @@
-# Pokeneas - Aplicación Flask con S3
+# 🎮 Pokeneas
 
-Aplicación Flask profesional que muestra Pokeneas (Pokémon antioqueños) con imágenes almacenadas en Amazon S3.
+Aplicación web Flask que muestra **Pokeneas** - criaturas inspiradas en la cultura paisa de Antioquia, Colombia.
 
-## Características
+## 📖 ¿Qué es esto?
 
-- 🏗️ Arquitectura modular con Application Factory y Blueprints
-- 🎨 Interfaz moderna y minimalista
-- 🐳 Containerización con Docker
-- 🧪 Suite de pruebas con pytest
-- 🔄 CI/CD con GitHub Actions
-- ☁️ Integración con AWS S3 (URLs públicas y presignadas)
+Pokeneas es una parodia de Pokémon con personajes basados en la gastronomía y cultura antioqueña como:
+- **Arepa** - El pokenea más paisa
+- **Bandeja** - Maestro de la abundancia  
+- **Parcero** - El más social
+- Y 7 más...
 
-## Estructura del Proyecto
+## ✨ Características
 
-```
-pokeneas/
-├── app/
-│   ├── __init__.py           # Application factory
-│   ├── config.py             # Configuración por entornos
-│   ├── blueprints/
-│   │   ├── __init__.py
-│   │   └── pokeneas.py       # Rutas principales
-│   ├── services/
-│   │   ├── __init__.py
-│   │   └── pokeneas_service.py  # Lógica de negocio
-│   └── storage/
-│       ├── __init__.py
-│       └── s3.py             # Cliente S3
-├── templates/
-│   ├── base.html
-│   └── pokenea.html
-├── static/
-│   └── css/
-│       └── base.css
-├── tests/
-│   ├── __init__.py
-│   ├── conftest.py
-│   ├── test_api.py
-│   └── test_s3.py
-├── requirements.txt
-├── Dockerfile
-├── docker-compose.yml
-├── .env.example
-├── .gitignore
-└── README.md
+- � **2 rutas principales:**
+  - `/api/pokenea` - Retorna JSON con un Pokenea aleatorio
+  - `/pokenea` - Vista HTML con imagen y frase filosófica
+- 🐳 **Dockerizado** - Listo para desplegar con Docker Swarm
+- ☁️ **Imágenes en S3** - Integración con Amazon S3
+- 🔄 **CI/CD** - Build automático a DockerHub con GitHub Actions
+- 🎨 **Diseño minimalista** - Interfaz moderna con dark mode
+
+## 🚀 Inicio Rápido
+
+### Desarrollo Local
+
+```powershell
+# 1. Clonar repositorio
+git clone https://github.com/hdezdav/pokeneas.git
+cd pokeneas
+
+# 2. Crear entorno virtual
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+
+# 3. Instalar dependencias
+pip install -r requirements.txt
+
+# 4. Configurar variables de entorno
+copy .env.example .env
+# Editar .env con tus valores (opcional S3)
+
+# 5. Ejecutar
+python run.py
 ```
 
-## Pokeneas Disponibles
+Visita: http://localhost:8000/pokenea
 
-La aplicación incluye 10 Pokeneas únicos:
+### Con Docker
 
-1. **Arepa** - El pokenea más paisa
-2. **Bandeja** - Maestro de la abundancia
-3. **Parcero** - El más social
-4. **Guaro** - Espíritu festivo
-5. **Silletero** - Guardián de las flores
-6. **Empanada** - Crujiente y versátil
-7. **Mondongo** - Sabio ancestral
-8. **Mazamorra** - Dulce tradición
-9. **Paisita** - Espíritu emprendedor
-10. **Fríjoles** - Esencia antioqueña
+```powershell
+# Construir y ejecutar
+docker-compose up --build
 
-## Endpoints
-
-### API REST
-
-**GET /api/pokenea**
-
-Retorna un Pokenea aleatorio en formato JSON.
-
-```json
-{
-  "id": 1,
-  "nombre": "Arepa",
-  "altura": "0.3m",
-  "habilidad": "Doble Sabor",
-  "container_id": "a3f2b1c4d5e6"
-}
+# O directamente
+docker build -t pokeneas .
+docker run -p 8000:8000 pokeneas
 ```
 
-### Vista Web
+## 🎯 Endpoints
 
-**GET /pokenea**
+| Ruta | Método | Descripción | Respuesta |
+|------|--------|-------------|-----------|
+| `/api/pokenea` | GET | Pokenea aleatorio en JSON | `{id, nombre, altura, habilidad, container_id}` |
+| `/pokenea` | GET | Vista HTML con imagen y frase | HTML |
+| `/health` | GET | Health check | `{status: "healthy"}` |
 
-Renderiza una página HTML con:
-- Imagen del Pokenea
-- Frase filosófica
-- Container ID
+## 📦 Tecnologías
 
-## Configuración
+- **Backend:** Flask 3.0
+- **Storage:** AWS S3 (boto3)
+- **Container:** Docker
+- **CI/CD:** GitHub Actions
+- **Deploy:** Docker Swarm en AWS EC2
 
-### Variables de Entorno
+## 👨‍💻 Desarrollo
 
-Copia `.env.example` a `.env` y configura las variables:
+```powershell
+# Ejecutar tests
+pytest -v
 
-```bash
-# Flask
-FLASK_ENV=development
-SECRET_KEY=tu-clave-secreta-aqui
+# Ver cobertura
+pytest --cov=app
 
-# AWS S3
-S3_BUCKET=tu-bucket-name
-S3_REGION=us-east-1
-USE_S3_PRESIGNED=false
-S3_PUBLIC_BASE_URL=https://tu-bucket.s3.us-east-1.amazonaws.com
-
-# Credenciales AWS (solo si USE_S3_PRESIGNED=true)
-AWS_ACCESS_KEY_ID=tu-access-key
-AWS_SECRET_ACCESS_KEY=tu-secret-key
-AWS_SESSION_TOKEN=tu-session-token  # Opcional
-
-# Configuración de URLs presignadas
-PRESIGNED_URL_EXPIRATION=3600
+# Linters
+black app/ tests/
+flake8 app/ tests/
 ```
 
-### Modos de operación S3
+## 📄 Licencia
 
-#### Modo Público (USE_S3_PRESIGNED=false)
+MIT
 
-Las imágenes deben estar públicamente accesibles en S3. La URL se construye como:
-```
-https://{bucket}.s3.{region}.amazonaws.com/{key}
-```
+---
 
-#### Modo Presignado (USE_S3_PRESIGNED=true)
-
-Genera URLs temporales firmadas. Requiere credenciales AWS válidas.
-
-## Instalación y Ejecución
+**Hecho con ❤️ en Medellín, Colombia** 🇨🇴
 
 ### Desarrollo Local (sin Docker)
 
