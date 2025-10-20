@@ -7,6 +7,7 @@ Una aplicación web interactiva construida con Flask que muestra **Pokeneas**
 ### 🎯 Endpoints Disponibles
 - **`/api/pokenea`** - Retorna un Pokenea aleatorio en formato JSON
 - **`/pokenea`** - Muestra una interfaz HTML con imagen y frase filosófica
+- **`/imagenes`** - Galería de todas las imágenes almacenadas en S3
 
 ### 🚀 Tecnologías & Arquitectura
 - **🐳 Dockerizado** - Contenerización lista para producción
